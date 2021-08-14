@@ -1,0 +1,85 @@
+var pageHeight = 0              // 页面高度
+var translateY = '90%'          // 初始化偏移量
+var initHeight = 0              // 最初偏移量
+var offsetRange = {             // 偏移范围
+    top: 0,
+    bottom: 0
+}
+var offset = {                  // 偏移对象
+    dir: 'up',
+    start: 0
+}
+var popupEl = null
+
+/**
+ * 触摸开始
+ * @param {any} event       事件对象
+ * @param {any} instance    微信实例
+ * @returns {void}
+ */
+function touchStart(event, instance) {
+    console.log('touch start')
+    // 在这里调用 wx 实例的方法
+    if (!popupEl) {
+        popupEl = instance.selectComponent('#drag-popup')
+    }
+    offset.start = event.changedTouches[0].clientY
+}
+
+/**
+ * 触摸移动
+ * @param {any} event       事件对象
+ * @returns {void}
+ */
+function touchMove(event) {
+    // 计算移动距离
+    var offsetY = event.changedTouches[0].clientY - offset.start
+    translateY = initHeight + offsetY
+    if (offsetY < 0) {
+        // 向上
+        offset.dir = 'up'
+        if (translateY <= offsetRange.top) {
+            translateY = offsetRange.top
+        }
+    } else {
+        // 向下
+        if (translateY >= offsetRange.bottom) {
+            translateY = offsetRange.bottom
+        }
+        offset.dir = 'down'
+    }
+    popupEl.setStyle({
+        'transform': 'translate3d(0, ' + translateY + 'px, 0)',
+        'transition': 'none'
+    })
+}
+
+/**
+ * 触摸结束
+ * @param {any} event       事件对象
+ * @returns {void}
+ */
+function touchEnd() {
+    initHeight = translateY
+}
+
+/**
+ * 获取设备可视范围高度
+ * @param {number} clientHeight  高度
+ * @returns {void}
+ */
+function getResult(res) {
+    if (pageHeight || !res.windowHeight) return
+    pageHeight = res.windowHeight
+    initHeight = offsetRange.bottom = res.initHeight
+    translateY = initHeight
+    console.log('getResult', translateY)
+}
+
+module.exports = {
+    getResult: getResult,
+    translateY: translateY,
+    touchStart: touchStart,
+    touchMove: touchMove,
+    touchEnd: touchEnd
+}

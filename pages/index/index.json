@@ -1,0 +1,7 @@
+{
+	"usingComponents": {
+		"drag-popup": "../../components/drag_popup/drag_popup"
+	},
+	"navigationBarBackgroundColor": "#000",
+	"navigationBarTextStyle": "white"
+}

@@ -1,0 +1,8 @@
+<view class="page">
+	<drag-popup>
+		<view class="row-item">1</view>
+		<view class="row-item">2</view>
+		<view class="row-item">3</view>
+		<view class="row-item">4</view>
+	</drag-popup>
+</view>
