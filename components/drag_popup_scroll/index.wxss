@@ -1,0 +1,54 @@
+.drag-popup {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    box-sizing: border-box;
+    border-radius: 20px 20px 0 0;
+    transform: translate3d(0, 100%, 0);
+    transition: transform .3s ease-in;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.popup-header {
+    padding-top: 20rpx;
+}
+
+.top-line {
+    width: 80rpx;
+    height: 4px;
+    background-color: #eaebec;
+    border-radius: 4px;
+    margin: 0 auto;
+}
+
+.popup-title {
+    font-size: 16px;
+    text-align: center;
+    margin-top: 20rpx;
+}
+
+.popup-content {
+    flex: 1;
+    height: 0;
+}
+
+/* 用于辅助 wxs 获取数据 */
+.hidden-result {
+    display: none;
+}
+
+.click-mask {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+.hidden {
+    display: none;
+}

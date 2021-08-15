@@ -22,7 +22,6 @@ Component({
                     const safeBottomArea = screenHeight - windowHeight - statusBarHeight
                     // 偏移量：可视窗口高度 - 底部安全区域高度 - 组件 header 高度
                     const offsetY = windowHeight - safeBottomArea - height
-                    console.log(deviceInfo)
                     this.setData({
                         result: {
                             // 可视窗口高度
@@ -36,12 +35,5 @@ Component({
                     })
                 }).exec()
         }
-    },
-    methods: {
-        // getDeviceHeight() {
-        //     this.setData({
-        //         result: deviceInfo.windowHeight
-        //     })
-        // }
     }
 })

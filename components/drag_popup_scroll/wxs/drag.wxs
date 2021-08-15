@@ -10,6 +10,7 @@ var offset = {                  // 偏移对象
     start: 0
 }
 var popupEl = null
+var self = null
 
 /**
  * 触摸开始
@@ -22,6 +23,7 @@ function touchStart(event, instance) {
     // 在这里调用 wx 实例的方法
     if (!popupEl) {
         popupEl = instance.selectComponent('#drag-popup')
+        self = instance
     }
     offset.start = event.changedTouches[0].clientY
 }
@@ -32,15 +34,19 @@ function touchStart(event, instance) {
  * @returns {void}
  */
 function touchMove(event) {
+    if (!offset.start) {
+        offset.start = event.changedTouches[0].clientY
+        return
+    }
     // 计算移动距离
     var offsetY = event.changedTouches[0].clientY - offset.start
     translateY = initHeight + offsetY
     if (offsetY < 0) {
         // 向上
-        offset.dir = 'up'
         if (translateY <= offsetRange.top) {
             translateY = offsetRange.top
         }
+        offset.dir = 'up'
     } else {
         // 向下
         if (translateY >= offsetRange.bottom) {
@@ -60,12 +66,17 @@ function touchMove(event) {
  * @returns {void}
  */
 function touchEnd() {
+    if (translateY === offsetRange.top) {
+        initHeight = offsetRange.top
+        offset.start = 0
+        return self.callMethod('offTouchEvent')
+    }
     initHeight = translateY
 }
 
 /**
- * 获取组件实例传输过来的值
- * @param {any} res  回调结果
+ * 获取设备可视范围高度
+ * @param {number} clientHeight  高度
  * @returns {void}
  */
 function getResult(res) {

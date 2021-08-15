@@ -1,0 +1,35 @@
+<wxs src="./wxs/drag.wxs" module="drag" />
+
+<view class="drag-popup" 
+    id="drag-popup"
+    style="transform: {{ transform }};">
+    <view change:result="{{ drag.getResult }}" result="{{ result }}" class="hidden-result"></view>
+    
+    <view 
+        class="popup-header" 
+        style="padding-bottom: {{ result.bottomSafeArea }};"
+        catchtouchstart="{{ drag.touchStart }}"
+        catchtouchmove="{{ drag.touchMove }}"
+        catchtouchend="{{ drag.touchEnd }}">
+        <view class="top-line"></view>
+        <view class="popup-title">{{ title }}</view>
+    </view>
+    <view class="click-mask {{ isBindEvent ? '' : 'hidden' }}"
+        catchtouchstart="{{ drag.touchStart }}"
+        catchtouchmove="{{ drag.touchMove }}"
+        catchtouchend="{{ drag.touchEnd }}">
+    </view>
+    <scroll-view scroll-y class="popup-content">
+        <slot></slot>
+    </scroll-view>
+    <!-- 
+        bindtouchstart="onTouchStart"
+        bindtouchmove="onTouchMove"
+     -->
+</view>
+
+<!-- 
+    catchtouchstart="{{ isBindEvent ? drag.touchStart : '' }}"
+    catchtouchmove="{{ isBindEvent ? drag.touchMove : '' }}"
+    catchtouchend="{{ isBindEvent ? drag.touchEnd : '' }}"
+ -->

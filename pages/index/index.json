@@ -1,6 +1,8 @@
 {
 	"usingComponents": {
-		"drag-popup": "../../components/drag_popup/drag_popup"
+		"drag-popup": "../../components/drag_popup/index",
+		"drag-popup-scroll": "../../components/drag_popup_scroll/index",
+		"t-scroll": "../../components/t-scroll"
 	},
 	"navigationBarBackgroundColor": "#000",
 	"navigationBarTextStyle": "white"

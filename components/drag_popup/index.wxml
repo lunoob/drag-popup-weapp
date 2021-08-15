@@ -1,14 +1,11 @@
 <wxs src="./wxs/drag.wxs" module="drag" />
 
-
-
 <view class="drag-popup" 
     id="drag-popup"
     catchtouchstart="{{ drag.touchStart }}"
     catchtouchmove="{{ drag.touchMove }}"
     catchtouchend="{{ drag.touchEnd }}"
     style="transform: {{ transform }};">
-    <view change:result="{{ drag.getResult }}" result="{{ result }}" class="hidden-result"></view>
     
     <view class="popup-header" style="padding-bottom: {{ result.bottomSafeArea }};">
         <view class="top-line"></view>
@@ -18,3 +15,8 @@
         <slot></slot>
     </scroll-view>
 </view>
+<view
+    change:result="{{ drag.getResult }}"
+    result="{{ result }}"
+    class="hidden-result"
+></view>
