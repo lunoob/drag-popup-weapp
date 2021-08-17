@@ -1,4 +1,4 @@
-import { deviceInfo, px2rpx } from '../../utils/util'
+import { deviceInfo } from '../../utils/util'
 
 Component({
     properties: {
@@ -12,10 +12,12 @@ Component({
         transform: '',
         isBindEvent: true,
         touchStart: '',
-        touchMove: ''
+        touchMove: '',
+        contentHeight: '100%'
     },
     lifetimes: {
         created() {
+            this.headerHeight = 0
             this.offset = {
                 start: 0
             }
@@ -30,6 +32,7 @@ Component({
                     const safeBottomArea = screenHeight - windowHeight - statusBarHeight
                     // 偏移量：可视窗口高度 - 底部安全区域高度 - 组件 header 高度
                     const offsetY = windowHeight - safeBottomArea - height
+                    this.headerHeight = safeBottomArea + height
                     this.setData({
                         result: {
                             // 可视窗口高度
@@ -39,9 +42,9 @@ Component({
                             // 底部安全区域
                             bottomSafeArea: `${safeBottomArea}px`
                         },
-                        transform: `translate3d(0, ${offsetY}px, 0)`
+                        transform: `translate3d(0, ${offsetY}px, 0)`,
+                        contentHeight: windowHeight - this.headerHeight + 'px'
                     })
-                    this.headerHeight = safeBottomArea + height
                 }).exec()
         }
     },

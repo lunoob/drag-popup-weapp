@@ -128,6 +128,7 @@ function transitionEnd() {
 function getResult(res) {
     if (!res) return
     scroll.wrapperHeight = res.wrapperHeight
+    console.log(res.wrapperHeight, res.scrollerHeight)
     scroll.minY = res.wrapperHeight - res.scrollerHeight
     scroll.bounce = !!res.bounce
     life.onScrollEnd = res.onScrollEnd
@@ -151,6 +152,7 @@ function stopRun() {
  * @returns {void}
  */
 function isNeedReset() {
+    console.log(scroll.minY, scroll.maxY)
     var offsetY
     if (scroll.offsetY < scroll.minY) {
         offsetY = scroll.minY
@@ -250,10 +252,15 @@ function createMomentum(current, start, duration) {
     }
 }
 
+function cb() {
+    console.log('callback')
+}
+
 module.exports = {
     touchStart: touchStart,
     touchMove: touchMove,
     touchEnd: touchEnd,
     transitionEnd: transitionEnd,
-    getResult: getResult
+    getResult: getResult,
+    cb: cb
 }

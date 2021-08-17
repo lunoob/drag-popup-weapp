@@ -13,10 +13,12 @@
 		<view class="row-item">3</view>
 		<view class="row-item">4</view>
 	</drag-popup> -->
-	<!-- <drag-popup-scroll>
+
+	<drag-popup-scroll>
 		<view class="row-item" wx:for="{{ 30 }}" wx:key="item">{{ item }}</view>
-	</drag-popup-scroll> -->
-	<t-scroll onScrollEnd="{{ { fn: app.hello } }}">
+	</drag-popup-scroll>
+
+	<!-- <t-scroll>
 		<view class="row-item" wx:for="{{ 100 }}" wx:key="item">{{ item }}</view>
-	</t-scroll>
+	</t-scroll> -->
 </view>

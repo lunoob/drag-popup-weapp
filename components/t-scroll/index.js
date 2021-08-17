@@ -3,10 +3,6 @@ Component({
         result: null
     },
     properties: {
-        onScrollEnd: {
-            type: Object,
-            value: {}
-        },
         bounce: {
             type: Boolean,
             value: true
@@ -20,7 +16,6 @@ Component({
                 this.invoke(scroller, 'boundingClientRect'),
                 this.invoke(wrapper, 'boundingClientRect'),
             ])
-            this.data.onScrollEnd.fn()
             this.setData({
                 result: { 
                     msg: 'hello word',

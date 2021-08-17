@@ -7,8 +7,10 @@ var offsetRange = {             // 偏移范围
 }
 var offset = {                  // 偏移对象
     dir: 'up',
-    start: 0
+    start: 0,
+    deltaY: 0
 }
+var offsetThreshold = 0         // 自动贴合的位移阈值
 var popupEl = null
 var self = null
 
@@ -40,6 +42,7 @@ function touchMove(event) {
     }
     // 计算移动距离
     var offsetY = event.changedTouches[0].clientY - offset.start
+    offset.deltaY = Math.abs(offsetY)
     translateY = initHeight + offsetY
     if (offsetY < 0) {
         // 向上
@@ -66,11 +69,27 @@ function touchMove(event) {
  * @returns {void}
  */
 function touchEnd() {
-    if (translateY === offsetRange.top) {
-        initHeight = offsetRange.top
-        offset.start = 0
-        return self.callMethod('offTouchEvent')
+    if (isReachEdge()) return
+
+    // 如果轻微拖动距离 > 自动贴合阈值
+    if (offset.deltaY > offsetThreshold) {
+        offset.deltaY = 0
+        if (offset.dir === 'up') {
+            translateY = offsetRange.top
+        } else if (offset.dir === 'down') {
+            translateY = offsetRange.bottom
+        }
+    } else {
+        if (offset.dir === 'up') {
+            translateY = offsetRange.bottom
+        } else if (offset.dir === 'down') {
+            translateY = offsetRange.top
+        }
     }
+    popupEl.setStyle({
+        'transform': 'translate3d(0, ' + translateY + 'px, 0)'
+    })
+    // 保存当前位置
     initHeight = translateY
 }
 
@@ -82,9 +101,26 @@ function touchEnd() {
 function getResult(res) {
     if (pageHeight || !res.windowHeight) return
     pageHeight = res.windowHeight
+    offsetThreshold = res.windowHeight * 0.15
     initHeight = offsetRange.bottom = res.initHeight
     translateY = initHeight
-    console.log('getResult', translateY)
+}
+
+/**
+ * 是否触碰到边界
+*/
+function isReachEdge() {
+    if (translateY === offsetRange.top) {
+        initHeight = offsetRange.top
+        offset.start = 0
+        self.callMethod('offTouchEvent')
+        return true
+    } else if (translateY === offsetRange.bottom) {
+        initHeight = offsetRange.bottom
+        offset.start = 0
+        return true
+    }
+    return false
 }
 
 module.exports = {
