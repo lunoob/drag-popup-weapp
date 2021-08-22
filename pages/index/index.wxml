@@ -15,7 +15,7 @@
 	</drag-popup> -->
 
 	<drag-popup-scroll>
-		<view class="row-item" wx:for="{{ 30 }}" wx:key="item">{{ item }}</view>
+		<!-- <view class="row-item" wx:for="{{ 30 }}" wx:key="item">{{ item }}</view> -->
 	</drag-popup-scroll>
 
 	<!-- <t-scroll>

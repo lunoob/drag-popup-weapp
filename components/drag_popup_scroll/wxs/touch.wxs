@@ -1,0 +1,50 @@
+var scroll = require('scroll.wxs')
+var drag = require('drag.wxs')
+
+var transfer = {
+    pointY: 0,
+    isReachTop: true
+}
+
+function touchStart(e, ins) {
+    transfer.pointY = e.changedTouches[0].clientY
+    scroll.touchStart(e, ins)
+}
+
+function touchMove(e) {
+    var point = e.changedTouches[0]
+    var deltaY = point.clientY - transfer.pointY
+    if (deltaY > 0) {
+        // 向下拖动
+        if (transfer.isReachTop) {
+            return drag.touchMove(e)
+        }
+    } else if (deltaY < -2) {
+        // 恢复 reachTop
+        transfer.isReachTop = false
+    }
+    scroll.touchMove(e)
+}
+
+function touchEnd() {
+    transfer.isReachTop = scroll.isReachTop()
+    scroll.touchEnd()
+    drag.touchEnd()
+}
+
+function transitionEnd() {
+    transfer.isReachTop = scroll.isReachTop()
+    scroll.transitionEnd
+}
+
+module.exports = {
+    scrollTouchStart: touchStart,
+    scrollTouchMove: touchMove,
+    scrollTouchEnd: touchEnd,
+    scrollTransitionEnd: transitionEnd,
+    scrollGetResult: scroll.getResult,
+    dragTouchStart: drag.touchStart,
+    dragTouchMove: drag.touchMove,
+    dragTouchEnd: drag.touchEnd,
+    dragGetResult: drag.getResult
+}

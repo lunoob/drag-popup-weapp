@@ -8,6 +8,7 @@ Component({
         }
     },
     data: {
+        sResult: 0,
         result: 0,
         transform: '',
         isBindEvent: true,
@@ -45,46 +46,41 @@ Component({
                         transform: `translate3d(0, ${offsetY}px, 0)`,
                         contentHeight: windowHeight - this.headerHeight + 'px'
                     })
-                }).exec()
+                }).exec(() => {
+                    this.scrollInit()
+                })
         }
     },
     methods: {
-        listenTouchEvent() {
-            if (this.data.isBindEvent) return
-            console.log('listen start')
-            this.setData({ 
-                isBindEvent: true
+        // t-scroll
+        async scrollInit() {
+            const wrapper = this.createSelectorQuery().select('#t-scroll-wrapper')
+            const scroller = this.createSelectorQuery().select('#t-scroll-scroller')
+            const [ scrollerRect, wrapperRect ] = await Promise.all([
+                this.invoke(scroller, 'boundingClientRect'),
+                this.invoke(wrapper, 'boundingClientRect'),
+            ])
+            this.setData({
+                sResult: { 
+                    msg: 'hello word',
+                    scrollerHeight: scrollerRect.height,
+                    wrapperHeight: wrapperRect.height,
+                    bounce: false
+                }
             })
         },
-        offTouchEvent() {
-            if (!this.data.isBindEvent) return
-            console.log('listen off')
-            this.setData({ 
-                isBindEvent: false
+        /**
+         * 调用元素的异步方法
+         * @param {any} el          元素
+         * @param {string} method   方法名
+         * @returns {Promise}
+         */
+        invoke(el, method) {
+            return new Promise((resolve) => {
+                el[method](resolve).exec()
+            }).catch(err => {
+                console.log(err)
             })
-        },
-        onTouchStart(event) {
-            if (this.data.isBindEvent) return
-            this.offset.start = event.changedTouches[0].clientY
-        },
-        onTouchMove(event) {
-            console.log('object move')
-            if (this.data.isBindEvent) return
-            // 触发 touch move 说明，已经到底或者到顶
-            const offsetY = event.changedTouches[0].clientY - this.offset.start
-            if (offsetY > 0) {
-                if (this.data.isBindEvent) return
-                // 到达顶部，并且往下拉
-                this.listenTouchEvent()
-            }
-        },
-        onScroll({ detail }) {
-            if (this.data.isBindEvent) return
-            if (detail.scrollTop <= 0) {
-                console.log('hit')
-                this.listenTouchEvent()
-            }
-            console.log('top')
         }
     }
 })

@@ -1,6 +1,7 @@
 var self = null
 var scroller = null
 var scroll = {
+    enabled: true,
     minY: 0,
     maxY: 0,
     wrapperHeight: 0,
@@ -26,6 +27,7 @@ var life = {
  * @returns {void}
  */
 function touchStart(e, instance) {
+    if (!scroll.enabled) return
     if (!self) {
         self = instance
         scroller = self.selectComponent('#t-scroll-scroller')
@@ -48,9 +50,8 @@ function touchStart(e, instance) {
  * @param {any} e  事件对象
  * @returns {void}
  */
-function touchMove(e, fn) {
-    console.log(JSON.stringify(fn))
-    if (!scroll.isStarted) return
+function touchMove(e) {
+    if (!scroll.enabled || !scroll.isStarted) return
     var point = e.changedTouches[0]
     var deltaY = point.clientY - scroll.pointY
     // 浮点数坐标会影响渲染速度
@@ -82,11 +83,12 @@ function touchMove(e, fn) {
 }
 
 /**
- * bindtouchmove 回调
+ * bindtouchend 回调
  * @param {any} e  事件对象
  * @returns {void}
  */
 function touchEnd() {
+    if (!scroll.enabled) return
     life.onScrollEnd && life.onScrollEnd()
     if (!scroll.isStarted) return
     scroll.isStarted = false
@@ -118,6 +120,7 @@ function touchEnd() {
  * @returns {void}
  */
 function transitionEnd() {
+    if (!scroll.enabled) return
     isNeedReset()
 }
 
@@ -128,8 +131,11 @@ function transitionEnd() {
  */
 function getResult(res) {
     if (!res) return
+    if (res.scrollerHeight <= res.wrapperHeight) {
+        scroll.enabled = false
+        return
+    }
     scroll.wrapperHeight = res.wrapperHeight
-    console.log(res.wrapperHeight, res.scrollerHeight)
     scroll.minY = res.wrapperHeight - res.scrollerHeight
     scroll.bounce = !!res.bounce
     life.onScrollEnd = res.onScrollEnd
@@ -252,8 +258,13 @@ function createMomentum(current, start, duration) {
     }
 }
 
-function cb() {
-    console.log('callback')
+/**
+* 是否已经到达顶部
+* @date 2021-08-15
+* @returns {boolean}
+*/
+function isReachTop() {
+    return scroll.offsetY - scroll.maxY >= -2
 }
 
 module.exports = {
@@ -262,5 +273,5 @@ module.exports = {
     touchEnd: touchEnd,
     transitionEnd: transitionEnd,
     getResult: getResult,
-    cb: cb
+    isReachTop: isReachTop
 }

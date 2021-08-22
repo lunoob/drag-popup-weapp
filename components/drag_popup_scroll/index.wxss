@@ -60,3 +60,16 @@
 .row-item + .row-item {
     border-top: 1px solid #f5f5f5;
 }
+
+/* t-scroll */
+.scroll-wrapper {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    border: 2rpx solid red;
+    overflow: hidden;
+}
+.scroller {
+    background-color: #70f3b7;
+    transform: translate3d(0, 0, 0);
+}

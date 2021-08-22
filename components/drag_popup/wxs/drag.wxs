@@ -73,7 +73,6 @@ function getResult(res) {
     pageHeight = res.windowHeight
     initHeight = offsetRange.bottom = res.initHeight
     translateY = initHeight
-    console.log('getResult', translateY)
 }
 
 module.exports = {

@@ -6,12 +6,23 @@ Component({
         bounce: {
             type: Boolean,
             value: true
+        },
+        // 手动初始化
+        initByHand: {
+            type: Boolean,
+            value: false
         }
     },
     lifetimes: {
-        async attached() {
-            const scroller = this.createSelectorQuery().select('#t-scroll-scroller')
+        attached() {
+            if (this.data.initByHand) return
+            this.init()
+        }
+    },
+    methods: {
+        async init() {
             const wrapper = this.createSelectorQuery().select('#t-scroll-wrapper')
+            const scroller = this.createSelectorQuery().select('#t-scroll-scroller')
             const [ scrollerRect, wrapperRect ] = await Promise.all([
                 this.invoke(scroller, 'boundingClientRect'),
                 this.invoke(wrapper, 'boundingClientRect'),
@@ -24,9 +35,7 @@ Component({
                     bounce: this.data.bounce
                 }
             })
-        }
-    },
-    methods: {
+        },
         /**
          * 调用元素的异步方法
          * @param {any} el          元素
