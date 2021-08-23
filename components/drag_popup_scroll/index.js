@@ -62,7 +62,6 @@ Component({
             ])
             this.setData({
                 sResult: { 
-                    msg: 'hello word',
                     scrollerHeight: scrollerRect.height,
                     wrapperHeight: wrapperRect.height,
                     bounce: false

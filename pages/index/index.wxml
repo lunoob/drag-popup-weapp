@@ -1,12 +1,5 @@
-<wxs module="app">
-	function hello() {
-		console.log('hello')
-	}
-	module.exports = {
-		hello: hello
-	}
-</wxs>
 <view class="page">
+	<!-- 没有滚动内容的组件 -->
 	<!-- <drag-popup>
 		<view class="row-item">1</view>
 		<view class="row-item">2</view>
@@ -14,8 +7,9 @@
 		<view class="row-item">4</view>
 	</drag-popup> -->
 
+	<!-- 加入滚动内容的组件 -->
 	<drag-popup-scroll>
-		<!-- <view class="row-item" wx:for="{{ 30 }}" wx:key="item">{{ item }}</view> -->
+		<view class="row-item" wx:for="{{ 30 }}" wx:key="item">{{ item }}</view>
 	</drag-popup-scroll>
 
 	<!-- <t-scroll>

@@ -18,7 +18,6 @@ var popupEl = null
  * @returns {void}
  */
 function touchStart(event, instance) {
-    console.log('touch start')
     // 在这里调用 wx 实例的方法
     if (!popupEl) {
         popupEl = instance.selectComponent('#drag-popup')
@@ -34,7 +33,7 @@ function touchStart(event, instance) {
 function touchMove(event) {
     // 计算移动距离
     var offsetY = event.changedTouches[0].clientY - offset.start
-    translateY = initHeight + offsetY
+    translateY = Math.round(initHeight + offsetY)
     if (offsetY < 0) {
         // 向上
         offset.dir = 'up'
