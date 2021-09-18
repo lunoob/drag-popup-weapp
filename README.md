@@ -6,7 +6,7 @@ ios 设备会比 android 设备要快很多
 
 ## 预览
 
-<img src="/Users/mac/items/luoob/mp-weixin/boss-drag-popup/images/wpqkp-ypkgn.gif" alt="wpqkp-ypkgn" style="zoom:50%;float:left;" />
+<img src="images/wpqkp-ypkgn.gif" alt="wpqkp-ypkgn" style="zoom:50%;float:left;" />
 
 
 
